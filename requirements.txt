@@ -1,0 +1,15 @@
+beautifulsoup4==4.10.0
+bs4==0.0.1
+certifi==2021.10.8
+cffi==1.15.0
+charset-normalizer==2.0.8
+gevent==21.8.0
+greenlet==1.1.2
+idna==3.3
+pycparser==2.21
+requests==2.26.0
+requests-futures==1.0.0
+soupsieve==2.3.1
+urllib3==1.26.7
+zope.event==4.5.0
+zope.interface==5.4.0
