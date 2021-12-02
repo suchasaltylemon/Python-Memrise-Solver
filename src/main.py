@@ -1,5 +1,6 @@
 from json import load
 from getpass import getpass
+from threading import Thread
 
 from lib.memrise import MemriseSession
 
@@ -40,6 +41,32 @@ def choose_course(courses):
 
 	return choice
 
+
+def large_solve(ms, course, target_points):
+	threads = []
+	info = ms.course_info(course)
+
+	screen_count = len(info["screens"].items())
+	mps = screen_count * 200
+
+	maxed_sessions = target_points // mps
+	fsp = target_points % mps
+
+	for _ in range(maxed_sessions):
+		t = Thread(target=lambda: ms.solve(course))
+		t.start()
+
+		threads.append(t)
+
+	if fsp != 0:
+		t = Thread(target=lambda: ms.solve(course, fsp))
+		t.start()
+
+		threads.append(t)
+
+	return threads
+
+
 def main():
 	input()
 	un, pwd = get_auth()
@@ -48,6 +75,15 @@ def main():
 		courses = [course for chunk in ms.courses() for course in chunk]
 
 		choice = choose_course(courses)
+
+		target_points = int(input("Points: "))
+
+		threads = large_solve(ms, choice, target_points)
+
+		for t in threads:
+			t.join()
+
+		input("Finished")
 
 
 if __name__ == "__main__":
