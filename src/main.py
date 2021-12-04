@@ -68,7 +68,6 @@ def large_solve(ms, course, target_points):
 
 
 def main():
-	input()
 	un, pwd = get_auth()
 
 	with MemriseSession(un, pwd) as ms:
